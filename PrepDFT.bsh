@@ -1,0 +1,17 @@
+# bash command for preparing gaussian inputs from sdf file
+
+
+obabel -isdf input.sdf -O temp.gau
+
+input=$1
+for i in {1..20} ; do
+inputfile=$input$i
+echo $inputfile
+
+
+echo %chk=$inputfile >$inputfile\.gau
+echo '%NProcShared=2'  >>  $inputfile\.gau
+echo '#HF b3lyp/6-31G(d) Opt Freq=Raman polar SCF=DIIS' >> $inputfile\.gau
+grep -v \# temp$i\.gau >> $inputfile\.gau
+
+done
